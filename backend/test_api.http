@@ -1,0 +1,69 @@
+### 1️⃣ Rejestracja nowego użytkownika
+POST http://127.0.0.1:8000/api/users/register/
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "Test12345",
+    "password_confirm": "Test12345"
+}
+
+### 2️⃣ Logowanie i pobranie tokena JWT
+POST http://127.0.0.1:8000/api/token/
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "email": "oliwia.koziol09@gmail.com",
+    "password": "Fifka1709"
+}
+
+### 3️⃣ Lista produktów (bez tokena, jeśli endpoint publiczny)
+GET http://127.0.0.1:8000/api/products/
+Accept: application/json
+
+### 4️⃣ Pobranie szczegółów produktu o ID=1
+GET http://127.0.0.1:8000/api/products/1/
+Accept: application/json
+
+### 5️⃣ Dodanie produktu do koszyka (wymaga JWT)
+# Zamień <ACCESS_TOKEN> na token otrzymany w kroku 2
+POST http://127.0.0.1:8000/api/cart/add/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0NzIxOTQ1LCJpYXQiOjE3NjQ3MTgzNDUsImp0aSI6ImU4Yzc4MzA1MWYwOTQzNTQ4OTc1MzZiZTEyZTNlNjM3IiwidXNlcl9pZCI6IjIifQ.5SWk_ce2ozBfpxi4xRIhXI7CAdCiT9RUggIcBmOvTio
+Content-Type: application/json
+
+{
+    "product_id": 1,
+    "quantity": 2
+}
+
+### 6️⃣ Sprawdzenie zawartości koszyka
+GET http://127.0.0.1:8000/api/cart/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0NzIxOTQ1LCJpYXQiOjE3NjQ3MTgzNDUsImp0aSI6ImU4Yzc4MzA1MWYwOTQzNTQ4OTc1MzZiZTEyZTNlNjM3IiwidXNlcl9pZCI6IjIifQ.5SWk_ce2ozBfpxi4xRIhXI7CAdCiT9RUggIcBmOvTio
+Accept: application/json
+
+### 7️⃣ Utworzenie zamówienia
+POST http://127.0.0.1:8000/api/cart/add/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0NzIxOTQ1LCJpYXQiOjE3NjQ3MTgzNDUsImp0aSI6ImU4Yzc4MzA1MWYwOTQzNTQ4OTc1MzZiZTEyZTNlNjM3IiwidXNlcl9pZCI6IjIifQ.5SWk_ce2ozBfpxi4xRIhXI7CAdCiT9RUggIcBmOvTio
+
+{
+  "product_id": 1,
+  "quantity": 2
+}
+
+
+### 8️⃣ Checkout (Stripe)
+POST http://127.0.0.1:8000/api/payments/create-checkout-session/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0NzIxOTQ1LCJpYXQiOjE3NjQ3MTgzNDUsImp0aSI6ImU4Yzc4MzA1MWYwOTQzNTQ4OTc1MzZiZTEyZTNlNjM3IiwidXNlcl9pZCI6IjIifQ.5SWk_ce2ozBfpxi4xRIhXI7CAdCiT9RUggIcBmOvTio
+Content-Type: application/json
+
+{
+    "order_id": 1
+}
+
+### 9️⃣ Sprawdzenie historii zamówień
+GET http://127.0.0.1:8000/api/orders/
+Authorization: Bearer <ACCESS_TOKEN>
+Accept: application/json
