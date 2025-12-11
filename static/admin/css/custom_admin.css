@@ -1,0 +1,747 @@
+/* 
+ * Custom Django Admin Styles
+ * Paleta kolorów:
+ * #FFF2C6 - Jasny kremowy żółty
+ * #FFF8DE - Bardzo jasny beżowy
+ * #AAC4F5 - Jasny niebieski
+ * #8CA9FF - Niebieski
+ */
+
+:root {
+    --primary-color: #8CA9FF;
+    --secondary-color: #AAC4F5;
+    --light-bg: #FFF8DE;
+    --accent-bg: #FFF2C6;
+    --text-dark: #2c3e50;
+    --text-light: #5a6c7d;
+    --border-color: #e0e6ed;
+    --hover-bg: #AAC4F5;
+    --success-color: #6fa5d4;
+    --danger-color: #e74c3c;
+    --shadow: 0 2px 8px rgba(140, 169, 255, 0.15);
+    --shadow-hover: 0 4px 16px rgba(140, 169, 255, 0.25);
+}
+
+/* Resetowanie i podstawowe style */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif !important;
+    background: #ffffff !important;
+    color: var(--text-dark) !important;
+    line-height: 1.6 !important;
+    min-height: 100vh;
+}
+
+/* Usunięcie czarnych prześwitów */
+html, body, #container {
+    background: #ffffff !important;
+}
+
+/* Header - Nagłówek */
+#header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
+    color: white !important;
+    padding: 1.2rem 2rem !important;
+    box-shadow: var(--shadow) !important;
+    border-bottom: none !important;
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 1.8rem !important;
+    letter-spacing: 0.5px !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+#branding h1 a:hover {
+    color: var(--accent-bg) !important;
+    text-decoration: none !important;
+}
+
+/* User tools - Menu użytkownika */
+#user-tools {
+    padding: 0 !important;
+    margin: 0.5rem 0 0 0 !important;
+    text-align: right !important;
+    font-size: 0.95rem !important;
+}
+
+#user-tools a {
+    color: white !important;
+    padding: 0.4rem 0.8rem !important;
+    border-radius: 6px !important;
+    transition: all 0.3s ease !important;
+    margin-left: 0.5rem !important;
+}
+
+#user-tools a:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    text-decoration: none !important;
+}
+
+/* Breadcrumbs - Nawigacja ścieżki */
+.breadcrumbs {
+    background: white !important;
+    padding: 1rem 2rem !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    font-size: 0.9rem !important;
+    color: var(--text-light) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+.breadcrumbs a {
+    color: var(--primary-color) !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease !important;
+}
+
+.breadcrumbs a:hover {
+    color: var(--text-dark) !important;
+}
+
+/* Content area - Główny obszar treści */
+#content {
+    padding: 2rem !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    background: #ffffff !important;
+}
+
+/* Container */
+#container {
+    background: #ffffff !important;
+}
+
+/* Moduły i boksy */
+.module, .dashboard .module {
+    background: white !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    box-shadow: var(--shadow) !important;
+    transition: all 0.3s ease !important;
+}
+
+.module:hover {
+    box-shadow: var(--shadow-hover) !important;
+    transform: translateY(-2px) !important;
+}
+
+.module h2, .module caption {
+    background: var(--accent-bg) !important;
+    color: var(--text-dark) !important;
+    padding: 1rem 1.5rem !important;
+    margin: -1.5rem -1.5rem 1.5rem -1.5rem !important;
+    border-radius: 12px 12px 0 0 !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    border-bottom: 2px solid var(--secondary-color) !important;
+}
+
+/* Dashboard - Strona główna admina */
+.dashboard .module table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    width: 100% !important;
+}
+
+.dashboard .module table th {
+    background: var(--secondary-color) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    padding: 0.8rem 1rem !important;
+    text-align: left !important;
+    border-bottom: 2px solid var(--primary-color) !important;
+}
+
+.dashboard .module table td {
+    padding: 0.8rem 1rem !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.dashboard .module table tr:hover {
+    background: var(--light-bg) !important;
+}
+
+/* Change list - Lista obiektów */
+#changelist {
+    background: white !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: var(--shadow) !important;
+}
+
+#changelist-form .results {
+    overflow-x: auto !important;
+    border-radius: 8px !important;
+}
+
+#result_list {
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+#result_list thead th {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%) !important;
+    color: white !important;
+    padding: 1rem !important;
+    font-weight: 600 !important;
+    border-bottom: none !important;
+    text-align: left !important;
+}
+
+#result_list tbody td {
+    padding: 0.9rem 1rem !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+#result_list tbody tr {
+    transition: all 0.2s ease !important;
+}
+
+#result_list tbody tr:hover {
+    background: var(--light-bg) !important;
+    transform: scale(1.005) !important;
+}
+
+#result_list tbody tr:nth-child(even) {
+    background: rgba(255, 248, 222, 0.3) !important;
+}
+
+/* Przyciski akcji */
+.actions {
+    background: var(--accent-bg) !important;
+    padding: 1rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 1rem !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.actions select {
+    padding: 0.5rem 1rem !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 6px !important;
+    background: white !important;
+    font-size: 0.95rem !important;
+}
+
+.actions button, .actions .button {
+    background: var(--primary-color) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.6rem 1.5rem !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 4px rgba(140, 169, 255, 0.3) !important;
+}
+
+.actions button:hover, .actions .button:hover {
+    background: var(--secondary-color) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(140, 169, 255, 0.4) !important;
+}
+
+/* Formularze */
+.form-row {
+    padding: 1rem !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.form-row:last-child {
+    border-bottom: none !important;
+}
+
+.form-row label {
+    font-weight: 600 !important;
+    color: var(--text-dark) !important;
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+}
+
+input[type="text"], input[type="password"], input[type="email"], 
+input[type="url"], input[type="number"], input[type="date"],
+input[type="time"], input[type="datetime-local"], textarea, select {
+    width: 100% !important;
+    padding: 0.7rem 1rem !important;
+    border: 2px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    font-size: 0.95rem !important;
+    transition: all 0.3s ease !important;
+    background: white !important;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, 
+input[type="email"]:focus, textarea:focus, select:focus {
+    border-color: var(--primary-color) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(140, 169, 255, 0.1) !important;
+}
+
+/* Submit buttons - Przyciski zapisywania */
+.submit-row {
+    background: var(--light-bg) !important;
+    padding: 1.2rem 1.5rem !important;
+    border-radius: 8px !important;
+    margin-top: 1.5rem !important;
+    text-align: right !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.submit-row input[type="submit"], .submit-row .button {
+    background: var(--primary-color) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.7rem 2rem !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin-left: 0.5rem !important;
+    box-shadow: 0 2px 6px rgba(140, 169, 255, 0.3) !important;
+}
+
+.submit-row input[type="submit"]:hover, .submit-row .button:hover {
+    background: var(--secondary-color) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 10px rgba(140, 169, 255, 0.4) !important;
+}
+
+.submit-row .deletelink {
+    background: var(--danger-color) !important;
+    color: white !important;
+}
+
+.submit-row .deletelink:hover {
+    background: #c0392b !important;
+}
+
+/* Sidebar - Boczny panel filtrów */
+#changelist-filter {
+    background: white !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+    box-shadow: var(--shadow) !important;
+}
+
+#changelist-filter h2 {
+    background: var(--accent-bg) !important;
+    color: var(--text-dark) !important;
+    padding: 0.8rem 1rem !important;
+    margin: -1rem -1rem 1rem -1rem !important;
+    border-radius: 12px 12px 0 0 !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+}
+
+#changelist-filter h3 {
+    color: var(--text-dark) !important;
+    font-weight: 600 !important;
+    margin: 1rem 0 0.5rem 0 !important;
+    font-size: 0.95rem !important;
+}
+
+#changelist-filter li {
+    padding: 0.4rem 0.5rem !important;
+    border-radius: 6px !important;
+    transition: background 0.2s ease !important;
+}
+
+#changelist-filter li:hover {
+    background: var(--light-bg) !important;
+}
+
+#changelist-filter a {
+    color: var(--primary-color) !important;
+    text-decoration: none !important;
+}
+
+#changelist-filter a:hover {
+    color: var(--text-dark) !important;
+}
+
+#changelist-filter li.selected a {
+    color: var(--text-dark) !important;
+    font-weight: 600 !important;
+}
+
+/* Search bar - Pasek wyszukiwania */
+#changelist-search {
+    margin-bottom: 1.5rem !important;
+}
+
+#searchbar {
+    width: 100% !important;
+    padding: 0.8rem 1rem !important;
+    border: 2px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+}
+
+#searchbar:focus {
+    border-color: var(--primary-color) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(140, 169, 255, 0.1) !important;
+}
+
+input[type="submit"].button {
+    background: var(--primary-color) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.8rem 1.5rem !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Pagination - Stronicowanie */
+.pagination {
+    padding: 1rem !important;
+    background: white !important;
+    border-radius: 8px !important;
+    text-align: center !important;
+    margin-top: 1.5rem !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.pagination a, .pagination span {
+    padding: 0.5rem 0.9rem !important;
+    margin: 0 0.2rem !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+    display: inline-block !important;
+}
+
+.pagination a {
+    background: var(--light-bg) !important;
+    color: var(--primary-color) !important;
+    text-decoration: none !important;
+}
+
+.pagination a:hover {
+    background: var(--primary-color) !important;
+    color: white !important;
+}
+
+.pagination .this-page {
+    background: var(--primary-color) !important;
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+/* Messages - Komunikaty systemowe */
+.messagelist {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 0 1.5rem 0 !important;
+}
+
+.messagelist li {
+    padding: 1rem 1.5rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.8rem !important;
+    font-weight: 500 !important;
+    box-shadow: var(--shadow) !important;
+}
+
+.messagelist .success {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%) !important;
+    color: #155724 !important;
+    border-left: 4px solid #28a745 !important;
+}
+
+.messagelist .warning {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
+    color: #856404 !important;
+    border-left: 4px solid #ffc107 !important;
+}
+
+.messagelist .error {
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%) !important;
+    color: #721c24 !important;
+    border-left: 4px solid #dc3545 !important;
+}
+
+.messagelist .info {
+    background: linear-gradient(135deg, var(--light-bg) 0%, var(--accent-bg) 100%) !important;
+    color: var(--text-dark) !important;
+    border-left: 4px solid var(--primary-color) !important;
+}
+
+/* Help text - Teksty pomocnicze */
+.help, p.help {
+    color: var(--text-light) !important;
+    font-size: 0.9rem !important;
+    margin-top: 0.4rem !important;
+    font-style: italic !important;
+}
+
+/* Errornote - Błędy */
+.errornote {
+    background: #f8d7da !important;
+    color: #721c24 !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 8px !important;
+    border-left: 4px solid #dc3545 !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Tabele ogólne */
+table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+th {
+    text-align: left !important;
+    font-weight: 600 !important;
+}
+
+/* Links - Odnośniki */
+a {
+    color: var(--primary-color) !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease !important;
+}
+
+a:hover {
+    color: var(--text-dark) !important;
+}
+
+/* Inline formsets - Formularze inline */
+.inline-group {
+    background: white !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.inline-group .tabular {
+    overflow-x: auto !important;
+}
+
+.inline-group h2 {
+    background: var(--accent-bg) !important;
+    color: var(--text-dark) !important;
+    padding: 0.8rem 1rem !important;
+    margin: -1.5rem -1.5rem 1rem -1.5rem !important;
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: 600 !important;
+}
+
+/* Object tools - Narzędzia obiektu (przyciski akcji) */
+.object-tools {
+    float: right !important;
+    margin: 0 0 1rem 1rem !important;
+}
+
+.object-tools li {
+    display: inline-block !important;
+    margin-left: 0.5rem !important;
+}
+
+.object-tools a {
+    background: var(--primary-color) !important;
+    color: white !important;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 4px rgba(140, 169, 255, 0.3) !important;
+}
+
+.object-tools a:hover {
+    background: var(--secondary-color) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(140, 169, 255, 0.4) !important;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+    width: auto !important;
+    height: 18px !important;
+    cursor: pointer !important;
+    accent-color: var(--primary-color) !important;
+}
+
+/* Footer */
+#footer {
+    background: white !important;
+    color: var(--text-light) !important;
+    padding: 1.5rem 2rem !important;
+    text-align: center !important;
+    border-top: 1px solid var(--border-color) !important;
+    margin-top: 3rem !important;
+}
+
+/* Login page - Strona logowania */
+.login {
+    background: #ffffff !important;
+}
+
+.login #container {
+    background: white !important;
+    border-radius: 16px !important;
+    box-shadow: var(--shadow-hover) !important;
+    max-width: 450px !important;
+    margin: 5rem auto !important;
+    padding: 3rem !important;
+}
+
+.login #header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
+    border-radius: 16px 16px 0 0 !important;
+    margin: -3rem -3rem 2rem -3rem !important;
+    padding: 2rem !important;
+}
+
+.login #header h1 {
+    margin: 0 !important;
+}
+
+.login .form-row {
+    padding: 1rem 0 !important;
+    border: none !important;
+}
+
+.login .submit-row {
+    background: transparent !important;
+    border: none !important;
+    padding: 1.5rem 0 0 0 !important;
+}
+
+.login input[type="submit"] {
+    width: 100% !important;
+    padding: 1rem !important;
+    font-size: 1.1rem !important;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    #content {
+        padding: 1.5rem !important;
+    }
+    
+    .module {
+        padding: 1rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #header {
+        padding: 1rem !important;
+    }
+    
+    #branding h1 {
+        font-size: 1.4rem !important;
+    }
+    
+    #content {
+        padding: 1rem !important;
+    }
+    
+    .breadcrumbs {
+        padding: 0.8rem 1rem !important;
+    }
+    
+    #result_list thead th,
+    #result_list tbody td {
+        padding: 0.6rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .submit-row {
+        text-align: center !important;
+    }
+    
+    .submit-row input[type="submit"] {
+        display: block !important;
+        width: 100% !important;
+        margin: 0.5rem 0 !important;
+    }
+}
+
+/* Dodatkowe style dla lepszego UX */
+.deletelink, .deletelink-box {
+    background: var(--danger-color) !important;
+}
+
+.addlink {
+    background: var(--primary-color) !important;
+}
+
+/* Visiual enhancements - Wizualne ulepszenia */
+.module h3 {
+    color: var(--text-dark) !important;
+    font-weight: 600 !important;
+    margin: 1rem 0 0.5rem 0 !important;
+}
+
+fieldset {
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px !important;
+    padding: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    background: #ffffff !important;
+}
+
+fieldset h2 {
+    background: var(--accent-bg) !important;
+    padding: 0.6rem 1rem !important;
+    margin: -1.5rem -1.5rem 1rem -1.5rem !important;
+    border-radius: 8px 8px 0 0 !important;
+    color: var(--text-dark) !important;
+    font-size: 1.1rem !important;
+}
+
+/* Card-like appearance for dashboard modules */
+.app-list {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    gap: 1.5rem !important;
+}
+
+/* Tooltips and popups */
+.tooltip {
+    background: var(--text-dark) !important;
+    color: white !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 6px !important;
+    font-size: 0.9rem !important;
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6 !important;
+    pointer-events: none !important;
+}
+
+/* Focus states for accessibility */
+*:focus {
+    outline: 2px solid var(--primary-color) !important;
+    outline-offset: 2px !important;
+}
+
+button:focus, a:focus, input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--primary-color) !important;
+    outline-offset: 2px !important;
+}
+
+/* Smooth transitions everywhere */
+* {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+}

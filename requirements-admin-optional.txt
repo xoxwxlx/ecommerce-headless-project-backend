@@ -1,0 +1,40 @@
+# Opcjonalne pakiety dla Django Admin - wybierz jedną opcję
+
+# OPCJA 1: django-admin-interface (rekomendowane dla GUI)
+# Łatwa konfiguracja przez panel admina, wsparcie dla dark mode
+django-admin-interface>=0.28.0
+django-colorfield>=0.11.0
+
+# OPCJA 2: Grappelli (zaawansowane features)
+# Profesjonalny wygląd, autocomplete, dashboard widgets
+# django-grappelli>=3.0.0
+
+# OPCJA 3: Django Suit (komercyjne, ale eleganckie)
+# django-suit>=2.0
+
+# DODATKOWE PRZYDATNE PAKIETY:
+
+# Django Debug Toolbar - do debugowania w development
+# django-debug-toolbar>=4.2.0
+
+# Django Extensions - dodatkowe komendy i narzędzia
+# django-extensions>=3.2.0
+
+# Django Import Export - import/export danych przez admin
+# django-import-export>=3.3.0
+
+# Django Reversion - wersjonowanie obiektów w adminie
+# django-reversion>=5.0.0
+
+# Django Admin Rangefilter - zaawansowane filtry dat/liczb
+# django-admin-rangefilter>=0.11.0
+
+# Pillow - przetwarzanie obrazków (już powinno być zainstalowane)
+# Pillow>=10.0.0
+
+# INSTRUKCJE:
+# 1. Odkomentuj pakiety które chcesz zainstalować
+# 2. Uruchom: pip install -r requirements-admin-optional.txt
+# 3. Dodaj aplikacje do INSTALLED_APPS w settings.py
+# 4. Uruchom migracje: python manage.py migrate
+# 5. Zbierz pliki statyczne: python manage.py collectstatic
