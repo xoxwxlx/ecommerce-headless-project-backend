@@ -32,10 +32,11 @@ class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
     user_email = serializers.EmailField(source='user.email', read_only=True)
     is_paid = serializers.ReadOnlyField()
-    
+    user_address = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = Order
-        fields = ['id', 'user', 'user_email', 'total_amount', 'payment_status', 'created_at', 'updated_at', 'items', 'is_paid']
+        fields = ['id', 'user', 'user_email', 'user_address', 'total_amount', 'payment_status', 'created_at', 'updated_at', 'items', 'is_paid']
         read_only_fields = ['id', 'created_at', 'updated_at']
     
     def validate_total_amount(self, value):
@@ -52,21 +53,29 @@ class OrderCreateSerializer(serializers.ModelSerializer):
     Serializer for creating orders with items.
     """
     items = OrderItemSerializer(many=True)
-    
+    user_address_id = serializers.IntegerField(write_only=True, required=False)
+
     class Meta:
         model = Order
-        fields = ['user', 'total_amount', 'payment_status', 'items']
-    
+        fields = ['user', 'user_address_id', 'total_amount', 'payment_status', 'items']
+
     def create(self, validated_data):
         """
-        Create order with items.
+        Create order with items and user address if provided.
         """
         items_data = validated_data.pop('items')
+        user_address_id = validated_data.pop('user_address_id', None)
         order = Order.objects.create(**validated_data)
-        
+        if user_address_id:
+            from users.models import Address
+            try:
+                address = Address.objects.get(id=user_address_id, user=order.user)
+                order.user_address = address
+                order.save()
+            except Address.DoesNotExist:
+                pass
         for item_data in items_data:
             OrderItem.objects.create(order=order, **item_data)
-        
         return order
 
 

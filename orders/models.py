@@ -21,13 +21,14 @@ class Order(models.Model):
     
     order_type = models.CharField(max_length=10, choices=ORDER_TYPE_CHOICES, default='user')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
-    
+    user_address = models.ForeignKey('users.Address', on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
+
     # Guest order fields
     guest_email = models.EmailField(blank=True, null=True)
     guest_first_name = models.CharField(max_length=100, blank=True, null=True)
     guest_last_name = models.CharField(max_length=100, blank=True, null=True)
     guest_phone = models.CharField(max_length=20, blank=True, null=True)
-    
+
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)

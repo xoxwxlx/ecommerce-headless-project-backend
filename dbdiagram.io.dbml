@@ -1,0 +1,133 @@
+Table VendorCompany {
+  id int [pk, increment]
+  name varchar [unique]
+  access_code varchar
+  description text
+  is_active boolean
+  created_at datetime
+}
+
+Table CustomUser {
+  id int [pk, increment]
+  email varchar [unique]
+  first_name varchar
+  last_name varchar
+  phone varchar
+  role varchar
+  vendor_company_id int [ref: > VendorCompany.id]
+  is_staff boolean
+  is_superuser boolean
+  password varchar
+  last_login datetime
+  is_active boolean
+  date_joined datetime
+}
+
+Table Product {
+  id int [pk, increment]
+  vendor_company_id int [ref: > VendorCompany.id]
+  title varchar
+  author varchar
+  genre varchar
+  format varchar
+  description text
+  price decimal
+  stock int
+  image_url varchar
+  publication_year int
+  publisher varchar
+  isbn varchar [unique]
+  page_count int
+  created_at datetime
+}
+
+Table Cart {
+  id int [pk, increment]
+  user_id int [ref: > CustomUser.id, unique]
+  created_at datetime
+  updated_at datetime
+}
+
+Table CartItem {
+  id int [pk, increment]
+  cart_id int [ref: > Cart.id]
+  product_id int [ref: > Product.id]
+  quantity int
+  selected_format varchar
+  added_at datetime
+}
+
+Table GuestCart {
+  id int [pk, increment]
+  session_key varchar [unique]
+  created_at datetime
+  updated_at datetime
+  expires_at datetime
+}
+
+Table GuestCartItem {
+  id int [pk, increment]
+  guest_cart_id int [ref: > GuestCart.id]
+  product_id int [ref: > Product.id]
+  quantity int
+  selected_format varchar
+  added_at datetime
+}
+
+Table Order {
+  id int [pk, increment]
+  order_type varchar
+  user_id int [ref: > CustomUser.id]
+  user_address_id int [ref: > UserAddress.id]
+  guest_email varchar
+  guest_first_name varchar
+  guest_last_name varchar
+  guest_phone varchar
+  total_amount decimal
+  payment_status varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table OrderItem {
+  id int [pk, increment]
+  order_id int [ref: > Order.id]
+  product_id int [ref: > Product.id]
+  quantity int
+  selected_format varchar
+  unit_price decimal
+  total_price decimal
+}
+
+Table GuestOrderAddress {
+  id int [pk, increment]
+  order_id int [ref: > Order.id, unique]
+  recipient_name varchar
+  street varchar
+  postal_code varchar
+  city varchar
+  country varchar
+  phone varchar
+}
+
+Table Payment {
+  id int [pk, increment]
+  order_id int [ref: > Order.id, unique]
+  stripe_session_id varchar [unique]
+  amount decimal
+  status varchar
+  created_at datetime
+  updated_at datetime
+}
+Table UserAddress {
+  id int [pk, increment]
+  user_id int [ref: > CustomUser.id]
+  recipient_name varchar
+  street varchar
+  postal_code varchar
+  city varchar
+  country varchar
+  phone varchar
+  is_default boolean
+  created_at datetime
+}

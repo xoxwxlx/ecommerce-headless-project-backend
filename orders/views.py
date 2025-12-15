@@ -46,13 +46,17 @@ class CreateOrderView(APIView):
         # Calculate total amount
         total_amount = sum(item.subtotal for item in cart_items)
         
+        # Pobierz domyślny adres użytkownika (jeśli istnieje)
+        user_address = request.user.addresses.filter(is_default=True).first()
+
         # Create order
         order = Order.objects.create(
             user=request.user,
+            user_address=user_address,
             total_amount=total_amount,
             payment_status='pending'
         )
-        
+
         # Create order items and update product stock
         for cart_item in cart_items:
             OrderItem.objects.create(
@@ -62,15 +66,15 @@ class CreateOrderView(APIView):
                 price=cart_item.product.price,
                 selected_format=cart_item.selected_format
             )
-            
+
             # Update product stock
             product = cart_item.product
             product.stock -= cart_item.quantity
             product.save()
-        
+
         # Clear cart
         cart_items.delete()
-        
+
         # Return created order
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
