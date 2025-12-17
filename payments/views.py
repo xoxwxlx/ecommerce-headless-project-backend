@@ -18,13 +18,13 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class CreateCheckoutSessionView(APIView):
     """
-    API endpoint to create a Stripe checkout session from user's cart.
+    Endpoint API do tworzenia sesji Stripe checkout z koszyka użytkownika.
     """
     permission_classes = [permissions.IsAuthenticated]
     
     @transaction.atomic
     def post(self, request):
-        # Get user's cart
+        # Pobierz koszyk użytkownika
         try:
             cart = Cart.objects.get(user=request.user)
         except Cart.DoesNotExist:
@@ -33,7 +33,7 @@ class CreateCheckoutSessionView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Check if cart has items
+        # Sprawdź, czy koszyk zawiera produkty
         cart_items = cart.items.all()
         if not cart_items.exists():
             return Response(
@@ -41,7 +41,7 @@ class CreateCheckoutSessionView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Validate stock availability
+        # Sprawdź dostępność produktów w magazynie
         for cart_item in cart_items:
             if cart_item.quantity > cart_item.product.stock:
                 return Response(
@@ -49,17 +49,17 @@ class CreateCheckoutSessionView(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
         
-        # Calculate total amount
+        # Oblicz łączną kwotę
         total_amount = cart.total_price
         
-        # Create order
+        # Utwórz zamówienie
         order = Order.objects.create(
             user=request.user,
             total_amount=total_amount,
             payment_status='pending'
         )
         
-        # Create order items and update product stock
+        # Utwórz pozycje zamówienia i zaktualizuj stan magazynowy produktu
         for cart_item in cart_items:
             OrderItem.objects.create(
                 order=order,
@@ -69,12 +69,12 @@ class CreateCheckoutSessionView(APIView):
                 selected_format=cart_item.selected_format
             )
             
-            # Update product stock
+            # Aktualizuj stan magazynowy produktu
             product = cart_item.product
             product.stock -= cart_item.quantity
             product.save()
         
-        # Build line items for Stripe
+        # Zbuduj pozycje dla Stripe
         line_items = []
         for cart_item in cart_items:
             format_str = f" - {cart_item.get_selected_format_display()}" if cart_item.selected_format else ""
@@ -85,13 +85,13 @@ class CreateCheckoutSessionView(APIView):
                         'name': f"{cart_item.product.title}{format_str}",
                         'description': cart_item.product.author,
                     },
-                    'unit_amount': int(cart_item.product.price * 100),  # Convert to grosze
+                    'unit_amount': int(cart_item.product.price * 100),  # Przelicz na grosze
                 },
                 'quantity': cart_item.quantity,
             })
         
         try:
-            # Create Stripe checkout session
+            # Utwórz sesję Stripe checkout
             checkout_session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
                 line_items=line_items,
@@ -104,7 +104,7 @@ class CreateCheckoutSessionView(APIView):
                 }
             )
             
-            # Create Payment record
+            # Utwórz rekord płatności
             Payment.objects.create(
                 order=order,
                 stripe_session_id=checkout_session.id,
@@ -112,7 +112,7 @@ class CreateCheckoutSessionView(APIView):
                 status='pending'
             )
             
-            # Clear cart
+            # Wyczyść koszyk
             cart_items.delete()
             
             return Response(
@@ -121,7 +121,7 @@ class CreateCheckoutSessionView(APIView):
             )
             
         except stripe.error.StripeError as e:
-            # Rollback order if Stripe session creation fails
+            # Wycofaj zamówienie, jeśli utworzenie sesji Stripe się nie powiedzie
             order.delete()
             return Response(
                 {'error': str(e)},
@@ -132,7 +132,7 @@ class CreateCheckoutSessionView(APIView):
 @method_decorator(csrf_exempt, name='dispatch')
 class StripeWebhookView(APIView):
     """
-    API endpoint to handle Stripe webhook events.
+    Endpoint API do obsługi zdarzeń webhook Stripe.
     """
     permission_classes = [permissions.AllowAny]
     
@@ -147,41 +147,41 @@ class StripeWebhookView(APIView):
             )
         
         try:
-            # Verify webhook signature
+            # Weryfikuj podpis webhooka
             event = stripe.Webhook.construct_event(
                 payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
             )
         except ValueError:
-            # Invalid payload
+            # Nieprawidłowy payload
             return Response(
                 {'error': 'Invalid payload.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         except stripe.error.SignatureVerificationError:
-            # Invalid signature
+            # Nieprawidłowy podpis
             return Response(
                 {'error': 'Invalid signature.'},
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Handle checkout.session.completed event
+        # Obsłuż zdarzenie checkout.session.completed
         if event['type'] == 'checkout.session.completed':
             session = event['data']['object']
             
             try:
-                # Get payment by session_id
+                # Pobierz płatność po session_id
                 payment = Payment.objects.get(stripe_session_id=session['id'])
                 
-                # Update payment status
+                # Zaktualizuj status płatności
                 payment.status = 'completed'
                 payment.save()
                 
-                # Update order payment status
+                # Zaktualizuj status płatności zamówienia
                 order = payment.order
                 order.payment_status = 'paid'
                 order.save()
                 
-                # Send confirmation email
+                # Wyślij e-mail z potwierdzeniem
                 self.send_order_confirmation_email(order)
                 
             except Payment.DoesNotExist:
@@ -194,11 +194,11 @@ class StripeWebhookView(APIView):
     
     def send_order_confirmation_email(self, order):
         """
-        Send order confirmation email to the customer.
+        Wyślij e-mail z potwierdzeniem zamówienia do klienta.
         """
         subject = f'Potwierdzenie zamówienia - Zamówienie #{order.id}'
         
-        # Build order items list
+        # Zbuduj listę pozycji zamówienia
         items_list = '\n'.join([
             f"- {item.product.title} x {item.quantity} = {item.subtotal} zł"
             for item in order.items.all()
@@ -232,5 +232,5 @@ Zespół E-commerce
                 fail_silently=False,
             )
         except Exception as e:
-            # Log error but don't fail the webhook
+            # Zaloguj błąd, ale nie przerywaj obsługi webhooka
             print(f"Nie udało się wysłać emaila: {str(e)}")
